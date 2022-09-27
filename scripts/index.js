@@ -1,45 +1,29 @@
-const popupEdit = document.querySelector('.popup__edit');
-const openPopupButton = document.querySelector('.profile__edit');
-const closePopupButton = popup.querySelector('.popup__close');
+let formElement = document.querySelector('.popup');
+let editButton = document.querySelector('.profile__edit');
+let closeButton = document.querySelector('.popup__close');
 
-const formElement = document.querySelector('.popup__form');
+ editButton.addEventListener('click', function(e) {
+  e.preventDefault()
+  formElement.classList.add('popup_opened')
+ });
 
-const nameInput = document.querySelector('.profile__name');
-let jobInput = document.querySelector('.profile__info');
-let newTextName = document.querySelector('.popup__input');
-let newTextJob = document.querySelector('.popup__input');
+ closeButton.addEventListener('click', function() {
+  formElement.classList.remove('popup_opened');
+ });
 
-const popupCard = document.querySelector('.popup_add');
-const openPopupCard = document.querySelector('.profile__add');
-const closePopupCard = popupCard.querySelector('.popup__close');
+ let nameInput = document.querySelector('.popup__input_name');
+ let jobInput = document.querySelector('.popup__input_who');
 
+ function formSubmitHandler (evt) {
+  evt.preventDefault();
+  console.log(nameInput.value);
+  console.log(jobInput.value);
 
-const togglePopup = () => {
-    popup.classList.toggle('popup_opened');
-}
+    let profileName = document.querySelector('.profile__name');
+    let profileJob = document.querySelector('.profile__who');
+   
+    profileName.textContent = nameInput.value;
+    profileJob.textContent = jobInput.value;
+  }
 
-
-const togglePopupCard = () => {
-    popupCard.classList.toggle('popup_opened');
-}
-
-
-
-function formSubmitHandler (evt) {
-    evt.preventDefault(); 
-    nameInput.textContent = newTextName.value;
-    jobInput.textContent = newTextJob.value;
-    togglePopup();
-}
-formElement.addEventListener('submit', formSubmitHandler); 
-
-openPopupButton.addEventListener('click', () => {
-    togglePopup();
-    newTextName.value = nameInput.textContent;
-    newTextJob.value = jobInput.textContent;
-})
-closePopupButton.addEventListener('click', togglePopup);
-
-
-openPopupCard.addEventListener('click', togglePopupCard)
-closePopupCard.addEventListener('click', togglePopupCard);
+  formElement.addEventListener('submit', formSubmitHandler);
