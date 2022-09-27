@@ -27,4 +27,4 @@
 
 **Ссылка на репозиторий**
 
-* git@github.com:ekaterinalaktionova/mesto.git
+* https://github.com/ekaterinalaktionova/mesto.git
