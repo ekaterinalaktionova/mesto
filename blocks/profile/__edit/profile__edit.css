@@ -1,24 +1,24 @@
 .profile__edit {
   background: transparent url(../../../images/profile-edit-btn.svg);
   background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid #FFFFFF;
-    min-width: 24px;
-    min-height: 24px;
-    box-sizing: border-box;
-    cursor: pointer;
-    padding: 0;
-    margin: 0 10px 0 0;
-      }
+  background-position: center;
+  border: 1px solid #FFFFFF;
+  min-width: 24px;
+  min-height: 24px;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 10px 0 0;
+}
       
-      .profile__edit:hover {
-        opacity: 0.6;
-      }
+.profile__edit:hover {
+  opacity: 0.6;
+}
       
-      @media screen and (max-width: 320px) {
-        .profile__edit {
-          width: 18px;
-          height: 18px;
-          margin-top: 8px;
-        }
+@media screen and (max-width: 320px) {
+  .profile__edit {
+    min-width: 18px;
+    min-height: 18px;
+    margin: 0;
+  }
 }

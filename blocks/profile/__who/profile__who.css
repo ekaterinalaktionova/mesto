@@ -1,11 +1,19 @@
 .profile__who {
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 650px) {
+  .profile__who {
+    font-size: 14px;
     line-height: 1.2;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    text-align: left;
+}
 }

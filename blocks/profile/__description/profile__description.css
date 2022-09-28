@@ -1,9 +1,18 @@
 .profile__description {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    grid-row-gap: 16px;
-    grid-column-gap: 18px;
-    max-height: 73px;
-    margin: 22px 0 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  grid-row-gap: 16px;
+  grid-column-gap: 18px;
+  max-height: 73px;
+  margin: 22px 0 0;
+}
+
+@media screen and (max-width: 450px) {
+  .profile__description {
+    text-align: center;
+    grid-row-gap: 14px;
+    margin: 0 19px;
+    padding-top: 26px;
+  }
 }

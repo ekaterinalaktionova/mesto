@@ -1,14 +1,14 @@
 .element__description {
-    font-family: Inter,Arial,Helvetica,sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 29px;
-    margin: 3px 0 0;
-    max-width: 198px;
-    overflow: hidden;
-    padding: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: black;
+  font-family: Inter,Arial,Helvetica,sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 29px;
+  margin: 3px 0 0;
+  max-width: 198px;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: black;
 }

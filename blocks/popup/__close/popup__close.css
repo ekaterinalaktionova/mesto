@@ -1,26 +1,26 @@
 .popup__close {
-    background: url(../../../images/Close\ Icon.png);
-    min-width: 32px;
-    min-height: 32px;
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    background-position: center;
-    cursor: pointer;
-    background-size: contain;
-    padding: 0;
+  background: url(../../../images/Close\ Icon.png);
+  min-width: 32px;
+  min-height: 32px;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  background-position: center;
+  cursor: pointer;
+  background-size: contain;
+  padding: 0;
 }
 
 .popup__close:hover {
-    opacity: 60%;
+  opacity: 60%;
 }
 
 @media screen and (max-width: 450px) {
-    .popup__close {
-        min-width: 20px;
-        min-height: 20px;
-        right: 19px;
-    }
+  .popup__close {
+     min-width: 20px;
+     min-height: 20px;
+     right: 19px;
+  }
 }
