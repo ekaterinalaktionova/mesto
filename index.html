@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
-  <link rel="stylesheet" href="pages/index.css">
+  <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body>
   <div class="page">
     <header class="header">
-    <img class="header__logo" src="./images/logo-1.svg" alt="логотип">
+      <img class="header__logo" src="./images/logo-1.svg" alt="логотип">
     </header>
     <main class="content">
       <section class="profile">
@@ -69,19 +69,19 @@
       </section>
     </main>
     <footer class="footer">
-      <h3 class="footer__copyright">© 2022 Mesto Russia</h3>
+      <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
-    <section class="popup">
+    <div class="popup">
       <div class="popup__container">
+        <h3 class="popup__title">Редактировать профиль</h3>
         <form name="editForm" class="popup__form">
-          <h2 class="popup__title">Редактировать профиль</h2>
-          <input class="popup__input popup__input_name" type="text" name="name" placeholder="Жак-Ив Кусто">
-          <input class="popup__input popup__input_who" type="text" name="job" placeholder="Исследователь океана">
+          <input class="popup__input popup__input_type_name" type="text" name="name" placeholder="Имя">
+          <input class="popup__input popup__input_type_who" type="text" name="job" placeholder="Профессия">
           <button type="submit" class="popup__save" aria-label="Сохранить">Сохранить</button>
         </form>
         <button type="button" class="popup__close" aria-label="Закрыть"></button>
       </div>
-    </section>
+    </div>
     <script src="scripts/index.js"></script>
   </div>
 </body>  

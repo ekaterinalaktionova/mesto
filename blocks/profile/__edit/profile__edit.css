@@ -1,5 +1,5 @@
 .profile__edit {
-  background: transparent url(../../../images/profile-edit-btn.svg);
+  background: transparent url(../../../images/Vector-editButton.svg);
   background-repeat: no-repeat;
   background-position: center;
   border: 1px solid #FFFFFF;
@@ -15,10 +15,16 @@
   opacity: 0.6;
 }
       
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 650px) {
   .profile__edit {
-    min-width: 18px;
-    min-height: 18px;
-    margin: 0;
+      margin: 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__edit {
+      min-width: 18px;
+      min-height: 18px;
+      background-size: 8px;
   }
 }

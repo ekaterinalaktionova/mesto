@@ -1,16 +1,14 @@
 .header__logo {
-  padding: 0;
-  margin: 0 0 41px;
   height: 33px;
   width: 142px;
-  color: #FFFFFF;  
+  object-fit: contain;
+  object-position: left;
+  color: #fff;  
 }
 
 @media screen and (max-width: 320px) {
   .header__logo {
     height: 24px;
     width: 104px;
-    margin-left: 27px;
-    margin-bottom: 32px;
   }
 }
