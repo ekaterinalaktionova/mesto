@@ -27,4 +27,4 @@
 
 **Ссылка на gh-pages**
 
-* https://ekaterinalaktionova.github.io/mesto/
+* https://ekaterinalaktionova.github.io/mesto/index.html
