@@ -14,5 +14,6 @@
     grid-row-gap: 14px;
     margin: 0 19px;
     padding-top: 26px;
+    grid-column-gap: 10px;
   }
 }

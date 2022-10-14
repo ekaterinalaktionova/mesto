@@ -1,6 +1,6 @@
 .profile__add {
   background: url(../../../images/Vector-addButton.svg) 50% no-repeat;
-  background-repeat: no-repeat;
+  background-size: 22px 22px;
   background-position: center;
   border: 2px solid #FFFFFF;
   min-width: 150px;
@@ -17,7 +17,7 @@
   
 @media screen and (max-width: 650px) {
  .profile__add {
-    margin: 36px 19px;
+    margin: 36px 0;
     background-size: 16px;
   }
 }
