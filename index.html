@@ -23,58 +23,16 @@
         </div>
         <button class="profile__add" type="button" title="Добавить фотографию"></button>
       </section>
-      <section class="elements">
-        <div class="element">
-          <img class="element__image" src="./images/julia-solonina-cR88oyyXdPk-unsplash.jpg" alt="замок">
-          <div class="element__info">
-            <h2 class="element__description">Castle</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/adam-bixby-Ix78f0AuCBI-unsplash.jpg" alt="аллея">
-          <div class="element__info">
-            <h2 class="element__description">Alley</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/erica-marsland-huynh-DLxOLOQPNAc-unsplash.jpg" alt="тыквы">
-          <div class="element__info">
-            <h2 class="element__description">Pampkins</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/aaron-burden-b9drVB7xIOI-unsplash.jpg" alt="скамейка">
-          <div class="element__info">
-            <h2 class="element__description">Bench</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/kate-laine-pT2zu7UsoX4-unsplash.jpg" alt="свеча">
-          <div class="element__info">
-            <h2 class="element__description">Candle</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
-        <div class="element">
-          <img class="element__image" src="./images/tiny-elch-Rts8cNclkJc-unsplash.jpg" alt="корги">
-          <div class="element__info">
-            <h2 class="element__description">Corgi</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </div>
+      <section class="cards">
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup__edit-profile">
       <div class="popup__container">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form name="editForm" class="popup__form">
+        <form name="editForm" class="popup__form popup__form_edit-profile">
           <input class="popup__input popup__input_type_name" type="text" name="name" placeholder="Имя">
           <input class="popup__input popup__input_type_who" type="text" name="job" placeholder="Профессия">
           <button type="submit" class="popup__save" aria-label="Сохранить">Сохранить</button>
@@ -82,6 +40,34 @@
         <button type="button" class="popup__close" aria-label="Закрыть"></button>
       </div>
     </div>
+    <div class="popup popup__add-card">
+      <div class="popup__container">
+        <h3 class="popup__title">Новое место</h3>
+        <form name="addForm" class="popup__form popup__form_add-card">
+          <input class="popup__input popup__input_card_name" type="text" name="name" placeholder="Название">
+          <input class="popup__input popup__input_card_link" type="url" name="link" placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__save" aria-label="Сохранить">Сохранить</button>
+        </form>
+        <button type="button" class="popup__close" aria-label="Закрыть"></button>
+      </div>
+    </div>
+    <div class="popup popup__image">
+      <div class="popup__container_image">
+        <img class="popup__large-image" src="#"  alt="">
+        <button type="button" class="popup__close popup__close_image" aria-label="Закрыть"></button>
+        <h2 class="popup__card-name"></h2>
+    </div>
+    </div>
+    <template class="template-card">
+      <div class="card">
+        <button class="card__image-button"><img class="card__image" src="#" alt=""></button>
+        <button class="card__delete" type="button" aria-label="Удалить"></button>
+        <div class="card__info">
+          <h2 class="card__description"></h2>
+          <button class="card__like" type="button" aria-label="Нравится"></button>
+        </div>
+      </div>
+    </template>
     <script src="scripts/index.js"></script>
   </div>
 </body>  
