@@ -57,20 +57,20 @@ function closePopup(popup) {
 }
 
 // Обработчик «отправки» формы
-function formSubmitHandler(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupEdit);
   }
 
-function cardFormSubmitHandler(evt) {
+function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const card = { name: cardNameInput.value, link: cardLinkInput.value };
   renderCard(card);
 
   addForm.reset();
-  closePopup(popupImage);
+  closePopup(popupAdd);
 }
 
 popups.forEach((popup) => {
@@ -137,5 +137,5 @@ addButton.addEventListener("click", () => {
   openPopup(popupAdd);
 });
 
-profileForm.addEventListener("submit", formSubmitHandler);
-addForm.addEventListener("submit", cardFormSubmitHandler);
+profileForm.addEventListener("submit", handleProfileFormSubmit);
+addForm.addEventListener("submit", handleCardFormSubmit);
