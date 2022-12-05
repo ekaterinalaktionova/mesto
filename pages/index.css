@@ -36,3 +36,6 @@
 @import url(../blocks/popup/__large-image/popup__large-image.css);
 @import url(../blocks/popup/__container-image/popup__container-image.css);
 @import url(../blocks/popup/__card-name/popup__card-name.css);
+@import url(../blocks/popup/__input/_type/_error/popup__input_type_error.css);
+@import url(../blocks/popup/__input-error/popup__input-error.css);
+@import url(../blocks/popup/__input-error/_active/popup__input-error_active);

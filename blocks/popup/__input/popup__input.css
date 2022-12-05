@@ -1,6 +1,5 @@
 .popup__input {
   border: none;
-  margin: 0 0 30px;
   padding: 0 0 13px;
   font-weight: 400;
   font-size: 14px;
@@ -9,3 +8,9 @@
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   max-height: 13px;
 }
+
+/*
+.popup__input:invalid {
+  border-bottom: 1px solid red;
+}
+*/
