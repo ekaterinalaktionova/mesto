@@ -2,7 +2,6 @@ const popups = document.querySelectorAll('.popup');
 const cardsContainer = document.querySelector('.cards');
 const popupEdit = document.querySelector('.popup_edit-profile');
 const editButton = document.querySelector('.profile__edit');
-const formElement = document.querySelector('.popup__form');
 const profileForm = document.querySelector('.popup__form_edit-profile');
 const addForm = document.querySelector('.popup__form_add-card');
 const nameInput = document.querySelector('.popup__input_type_name');
@@ -13,13 +12,12 @@ const popupAdd = document.querySelector('.popup_add-card');
 const addButton = document.querySelector('.profile__add');
 const cardNameInput = document.querySelector('.popup__input_type_card-name');
 const cardLinkInput = document.querySelector('.popup__input_type_card-link');
-const cardDescription = document.querySelector('.card__description');
 const popupImage = document.querySelector('.popup_image');
 const largeImage = document.querySelector('.popup__large-image');
 const popupImageName = document.querySelector('.popup__card-name');
-const deleteButton = document.querySelector('.card__delete');
 const cardTemplate = document.querySelector ('.template-card').content;
-
+const saveEditButton = popupEdit.querySelector('.popup__save');
+const saveAddButton = popupAdd.querySelector('.popup__save');
 
 //Массив карточек с фотографиями
 const initialCards = [
@@ -48,13 +46,6 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-/*const EscEvent = (evt, action) => {
-  const activePopup = document.querySelector('.popup_opened');
-  if (evt.which === ESC_KEYCODE) {
-    action(activePopup);
-  }
-};*/
 
 function closePopupByEsc(evt) {
   if (evt.key === 'Escape') {
@@ -85,8 +76,6 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const card = { name: cardNameInput.value, link: cardLinkInput.value };
   renderCard(card);
-
-  addForm.reset();
   closePopup(popupAdd);
 }
 
@@ -99,7 +88,7 @@ popups.forEach((popup) => {
       closePopup(popup);
     }
   });
-});
+})
 
 function toggleLikeCard(evt) {
   evt.target.classList.toggle('card__like_active');
@@ -129,7 +118,7 @@ function createCard(card) {
   cardElement.querySelector('.card__delete').addEventListener('click', deleteCard);
   cardImage.addEventListener('click', () => openImagePopup(card.link, card.name));
 
-return cardElement;
+  return cardElement;
 }
 
 function renderCard(card) {
@@ -144,13 +133,25 @@ function renderInitialCards() {
   
 renderInitialCards();
 
+function deleteError(form) {
+  const inputs = form.querySelectorAll('.popup__input');
+  inputs.forEach((input) => {
+    hideInputError(form, input, validationConfig);
+  });
+}
+
 editButton.addEventListener('click', () => {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+  saveEditButton.disabled = false;
+  deleteError(profileForm);
   openPopup(popupEdit);
 });
 
 addButton.addEventListener("click", () => {
+  saveAddButton.disabled = true;
+  addForm.reset();
+  deleteError(addForm);
   openPopup(popupAdd);
 });
 
