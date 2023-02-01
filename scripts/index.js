@@ -1,3 +1,15 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
+const config = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save',
+  inactiveButtonClass: 'popup__save_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active',
+};
+
 const popups = document.querySelectorAll('.popup');
 const cardsContainer = document.querySelector('.cards');
 const popupEdit = document.querySelector('.popup_edit-profile');
@@ -18,6 +30,7 @@ const popupImageName = document.querySelector('.popup__card-name');
 const cardTemplate = document.querySelector ('.template-card').content;
 const saveEditButton = popupEdit.querySelector('.popup__save');
 const saveAddButton = popupAdd.querySelector('.popup__save');
+
 
 //Массив карточек с фотографиями
 const initialCards = [
@@ -90,24 +103,26 @@ popups.forEach((popup) => {
   });
 })
 
-function toggleLikeCard(evt) {
+/*function toggleLikeCard(evt) {
   evt.target.classList.toggle('card__like_active');
 }
 
   function deleteCard(evt) {
     evt.target.closest('.card').remove();
   }
+*/
 
-
- function openImagePopup (cardImage, cardDescription) {
-    largeImage.src = cardImage;
-    popupImageName.textContent = cardDescription;
-    largeImage.alt = cardDescription;
+ /*function openImagePopup (link, name) {
+    const popupImage = document.querySelector('.popup__large-image');
+    const largeImage = document.querySelector('.popup__large-image');
+    largeImage.src = link;
+    document.querySelector('.popup__card-name').textContent = name;
+    largeImage.alt = name;
     openPopup(popupImage);
-  }
+  }*/
 
 function createCard(card) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  /*const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const cardDescription = cardElement.querySelector('.card__description');
 
@@ -116,12 +131,16 @@ function createCard(card) {
   cardDescription.textContent = card.name;
   cardElement.querySelector('.card__like').addEventListener('click', toggleLikeCard);
   cardElement.querySelector('.card__delete').addEventListener('click', deleteCard);
-  cardImage.addEventListener('click', () => openImagePopup(card.link, card.name));
+  cardImage.addEventListener('click', () => openImagePopup(card.link, card.name));*/
+
+  const item = new Card(card, '.template-card');
+
+  const cardElement = item.generateCard();
 
   return cardElement;
 }
 
-function renderCard(card) {
+/*function renderCard(card) {
   const newCard = createCard(card);
   cardsContainer.prepend(newCard);
 }
@@ -129,18 +148,27 @@ function renderInitialCards() {
   initialCards.forEach(function (card) {
     renderCard(card);
   });
+}*/
+
+
+function renderInitialCards() {
+  const cardsList = initialCards.map(createCard);
+  cardsContainer.prepend(...cardsList);
 }
-  
+
 renderInitialCards();
 
 function deleteError(form) {
   const inputs = form.querySelectorAll('.popup__input');
   inputs.forEach((input) => {
-    hideInputError(form, input, validationConfig);
+    hideInputError(form, input, config);
   });
 }
 
 editButton.addEventListener('click', () => {
+  const formValidatoradd = new FormValidator (config, popupEdit);
+  formValidatoradd.enableValidation()
+  deleteError(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   saveEditButton.disabled = false;
@@ -149,6 +177,7 @@ editButton.addEventListener('click', () => {
 });
 
 addButton.addEventListener("click", () => {
+  const formValidatoradd = new FormValidator (config, popupAdd);
   saveAddButton.disabled = true;
   addForm.reset();
   deleteError(addForm);
