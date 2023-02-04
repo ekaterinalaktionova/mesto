@@ -2,14 +2,11 @@ export default class FormValidator {
     constructor(config, formElement) {
         this._config = config;
         this._formElement = formElement;
-        this._inputSelector = config.inputSelector;
-        this._inputErrorClass = config.inputErrorClass;
         this._errorClass = config.errorClass;
-        this._invalidButtonClass = config.invalidButtonClass;
-        this._inactiveButtonClass = config.inactiveButtonClass ;
-        this._submitButtonSelector = config.submitButtonSelector;
+        this._inputErrorClass = config.inputErrorClass;
         this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
         this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
+        this._spanList = Array.from(this._formElement.querySelectorAll(config.spanError));
       }
     
       _showInputError(formInput, errorMessage) {
@@ -18,7 +15,7 @@ export default class FormValidator {
         errorElement.textContent = errorMessage;
         errorElement.classList.add(this._config.errorClass);
       }
-
+    
       _hideInputError(formInput) {
         const errorElement = this._formElement.querySelector(`.${formInput.id}-error`);
         formInput.classList.remove(this._config.inputErrorClass);
@@ -26,6 +23,15 @@ export default class FormValidator {
         errorElement.textContent = '';
       }
     
+      _deleteError() {
+this._spanList.forEach((spanElement) => {
+  spanElement.classList.remove(this._errorClass);
+spanElement.textContent = '';
+this._inputList.forEach((formInput) => {
+  formInput.classList.remove(this._inputErrorClass);
+})
+})
+      }
       _checkInputValidity(formInput) {
         if (!formInput.validity.valid) {
           this._showInputError(formInput, formInput.validationMessage);

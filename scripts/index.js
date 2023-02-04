@@ -1,3 +1,4 @@
+export { largeImage, popupImage, popupImageName, closePopupByEsc};
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 
@@ -88,7 +89,7 @@ function handleProfileFormSubmit(evt) {
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const card = { name: cardNameInput.value, link: cardLinkInput.value };
-  renderCard(card);
+  cardsContainer.prepend(createCard(card));
   closePopup(popupAdd);
 }
 
@@ -120,7 +121,7 @@ popups.forEach((popup) => {
     largeImage.alt = name;
     openPopup(popupImage);
   }*/
-
+  
 function createCard(card) {
   /*const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
@@ -158,31 +159,38 @@ function renderInitialCards() {
 
 renderInitialCards();
 
-function deleteError(form) {
+/*function deleteError(form) {
   const inputs = form.querySelectorAll('.popup__input');
   inputs.forEach((input) => {
     hideInputError(form, input, config);
   });
-}
+}*/
 
 editButton.addEventListener('click', () => {
-  const formValidatoradd = new FormValidator (config, popupEdit);
+  /*const formValidatoradd = new FormValidator (config, popupEdit);
   formValidatoradd.enableValidation()
-  deleteError(popupEdit);
+  deleteError(popupEdit);*/
+  const formEditProfileValidator = new FormValidator(config, profileForm);
+    formEditProfileValidator.enableValidation();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   saveEditButton.disabled = false;
-  deleteError(profileForm);
+  /*deleteError(profileForm);*/
   openPopup(popupEdit);
 });
 
 addButton.addEventListener("click", () => {
-  const formValidatoradd = new FormValidator (config, popupAdd);
+  /*const formValidatoradd = new FormValidator (config, popupAdd);*/
+  const formAddNewCardValidator = new FormValidator (config, addForm);
+    formAddNewCardValidator.enableValidation();
   saveAddButton.disabled = true;
   addForm.reset();
-  deleteError(addForm);
+  /*deleteError(addForm);*/
   openPopup(popupAdd);
 });
+
+
+    
 
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 addForm.addEventListener("submit", handleCardFormSubmit);
