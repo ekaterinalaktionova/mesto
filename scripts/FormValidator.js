@@ -32,9 +32,11 @@ this._inputList.forEach((formInput) => {
 })
 })
       }
+
       _checkInputValidity(formInput) {
+    
         if (!formInput.validity.valid) {
-          this._showInputError(formInput, formInput.validationMessage);
+          this._showInputError(formInput);
         } else {
           this._hideInputError(formInput);
         }
@@ -58,7 +60,7 @@ this._inputList.forEach((formInput) => {
         this._toggleButtonState();
         
         this._inputList.forEach((formInput) => {
-          formInput.addEventListener('input', function() {
+          formInput.addEventListener('input', () => {
             this._checkInputValidity(formInput);
             this._toggleButtonState();
           });

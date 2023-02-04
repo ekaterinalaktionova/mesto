@@ -70,7 +70,7 @@ image.addEventListener('click', () => {
   this._handleClosePopup();
 })
 
-       }) 
+ }) 
 
-    }
   }
+}
