@@ -68,7 +68,7 @@ function closePopupByEsc(evt) {
   }
 }
 
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 }
@@ -84,7 +84,7 @@ function handleProfileFormSubmit(evt) {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupEdit);
-  }
+}
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
@@ -92,6 +92,14 @@ function handleCardFormSubmit(evt) {
   cardsContainer.prepend(createCard(card));
   closePopup(popupAdd);
 }
+
+function handleCardClick(name, link) {
+  largeImage.src = link;
+  largeImage.alt = name;
+  popupImageName.textContent = name;
+  openPopup(popupImage);
+}
+
 
 popups.forEach((popup) => {
   popup.addEventListener('click', function (evt) {
@@ -103,13 +111,10 @@ popups.forEach((popup) => {
     }
   });
 })
-  
-function createCard(card) {
-  
-  const item = new Card(card, '.template-card');
-  const cardElement = item.generateCard();
 
-  return cardElement;
+function createCard(card) {
+  const item = new Card(card, '.template-card', handleCardClick);
+  return item.generateCard();
 }
 
 function renderInitialCards() {
@@ -119,19 +124,21 @@ function renderInitialCards() {
 
 renderInitialCards();
 
+const formEditProfileValidator = new FormValidator(config, profileForm);
+formEditProfileValidator.enableValidation();
+
 editButton.addEventListener('click', () => {
-  const formEditProfileValidator = new FormValidator(config, profileForm);
-    formEditProfileValidator.enableValidation();
+  formEditProfileValidator.resetValidationState();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  saveEditButton.disabled = false;
   openPopup(popupEdit);
 });
 
+const formAddNewCardValidator = new FormValidator (config, addForm);
+formAddNewCardValidator.enableValidation();
+
 addButton.addEventListener("click", () => {
-  const formAddNewCardValidator = new FormValidator (config, addForm);
-    formAddNewCardValidator.enableValidation();
-  saveAddButton.disabled = true;
+  formAddNewCardValidator.resetValidationState();
   addForm.reset();
   openPopup(popupAdd);
 });
