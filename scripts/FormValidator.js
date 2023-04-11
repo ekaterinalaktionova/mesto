@@ -23,16 +23,6 @@ export default class FormValidator {
     errorElement.textContent = '';
   }
 
-  _deleteError() {
-    this._spanList.forEach((spanElement) => {
-      spanElement.classList.remove(this._errorClass);
-      spanElement.textContent = '';
-      this._inputList.forEach((formInput) => {
-        formInput.classList.remove(this._inputErrorClass);
-      })
-    })
-  }
-
   _checkInputValidity(formInput) {
 
     if (!formInput.validity.valid) {
@@ -67,8 +57,9 @@ export default class FormValidator {
     this._setEventListeners();
   }
 
-  resetValidationState() {
-    this._formElement.reset();
+  resetValidation() {
+    this._toggleButtonState();
+
     this._inputList.forEach(inputElement => {
       this._hideInputError(inputElement)
     })

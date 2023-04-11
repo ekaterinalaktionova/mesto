@@ -128,7 +128,7 @@ const formEditProfileValidator = new FormValidator(config, profileForm);
 formEditProfileValidator.enableValidation();
 
 editButton.addEventListener('click', () => {
-  formEditProfileValidator.resetValidationState();
+  formEditProfileValidator.resetValidation();
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupEdit);
@@ -138,8 +138,8 @@ const formAddNewCardValidator = new FormValidator (config, addForm);
 formAddNewCardValidator.enableValidation();
 
 addButton.addEventListener("click", () => {
-  formAddNewCardValidator.resetValidationState();
   addForm.reset();
+  formAddNewCardValidator.resetValidation();
   openPopup(popupAdd);
 });
 
