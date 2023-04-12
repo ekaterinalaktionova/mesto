@@ -31,6 +31,8 @@ export default class Card {
 
   generateCard() {
     this._element = this._template.cloneNode(true);
+
+    // store elements for re-usage in other places instead of querying
     this._cardLikeButton = this._element.querySelector('.card__like');
     this._cardDeleteButton = this._element.querySelector('.card__delete');
     this._cardImage = this._element.querySelector('.card__image');

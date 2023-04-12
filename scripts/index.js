@@ -1,6 +1,9 @@
-export { largeImage, popupImage, popupImageName, closePopupByEsc};
+import PopupWithImage from "./PopupWithImage.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import PopupWithForm from "./PopupWithForm.js";
+import UserInfo from "./UserInfo.js";
+import Section from "./Section.js";
 
 const config = {
   formSelector: '.popup__form',
@@ -9,28 +12,17 @@ const config = {
   inactiveButtonClass: 'popup__save_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active',
+  popupWithImageSelector: '.popup_image',
+  popupEditProfileSelector: '.popup_edit-profile',
+  cardsContainerSelector: '.cards',
+  addNewCardSelector: '.popup_add-card',
 };
 
-const popups = document.querySelectorAll('.popup');
-const cardsContainer = document.querySelector('.cards');
-const popupEdit = document.querySelector('.popup_edit-profile');
-const editButton = document.querySelector('.profile__edit');
+const profileEditButton = document.querySelector('.profile__edit'); // profile edit
 const profileForm = document.querySelector('.popup__form_edit-profile');
-const addForm = document.querySelector('.popup__form_add-card');
-const nameInput = document.querySelector('.popup__input_type_name');
-const jobInput = document.querySelector('.popup__input_type_who');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__who');
-const popupAdd = document.querySelector('.popup_add-card');
+const profileNameInput = document.querySelector('.popup__input_type_name');
+const profileJobInput = document.querySelector('.popup__input_type_who');
 const addButton = document.querySelector('.profile__add');
-const cardNameInput = document.querySelector('.popup__input_type_card-name');
-const cardLinkInput = document.querySelector('.popup__input_type_card-link');
-const popupImage = document.querySelector('.popup_image');
-const largeImage = document.querySelector('.popup__large-image');
-const popupImageName = document.querySelector('.popup__card-name');
-const cardTemplate = document.querySelector ('.template-card').content;
-const saveEditButton = popupEdit.querySelector('.popup__save');
-const saveAddButton = popupAdd.querySelector('.popup__save');
 
 
 //Массив карточек с фотографиями
@@ -72,76 +64,88 @@ export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 }
+
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 }
 
-
-// Обработчик «отправки» формы
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopup(popupEdit);
-}
-
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  const card = { name: cardNameInput.value, link: cardLinkInput.value };
-  cardsContainer.prepend(createCard(card));
-  closePopup(popupAdd);
-}
-
-function handleCardClick(name, link) {
-  largeImage.src = link;
-  largeImage.alt = name;
-  popupImageName.textContent = name;
-  openPopup(popupImage);
-}
-
-
-popups.forEach((popup) => {
-  popup.addEventListener('click', function (evt) {
-    if (
-      evt.target.classList.contains('popup__close') ||
-      evt.target.classList.contains('popup_opened')
-    ) {
-      closePopup(popup);
-    }
-  });
-})
-
 function createCard(card) {
-  const item = new Card(card, '.template-card', handleCardClick);
+  const item = new Card(card, '.template-card', () => {
+    popupWithImage.open(card.name, card.link)
+  });
   return item.generateCard();
 }
 
-function renderInitialCards() {
-  const cardsList = initialCards.map(createCard);
-  cardsContainer.prepend(...cardsList);
-}
+const allCards = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    allCards.addItem(createCard(item))
+  }
+}, config.cardsContainerSelector);
 
-renderInitialCards();
+allCards.renderItems();
+
+const formAddNewCardValidator = new FormValidator(config, addForm);
+formAddNewCardValidator.enableValidation();
+
+const addCardPopup = new PopupWithForm({
+  formSubmitHandler: (item) => {
+    const newCardInput = {
+      name: item.name,
+      link: item.link,
+    };
+
+    allCards.addItem(createCard(newCardInput));
+    addCardPopup.close();
+    addCardPopup.resetForm();
+    formAddNewCardValidator.toggleButtonState();
+  },
+  popupCloseHandler: () => {
+    // не лучше ли оставлять частично-заполненную форму?
+    // удобно, закрыла форму, потом открыла и продолжила с того же месте
+    formAddNewCardValidator.hideAllErrors();
+    addCardPopup.resetForm();
+    formAddNewCardValidator.toggleButtonState();
+  },
+}, config.addNewCardSelector);
+addCardPopup.setEventListeners();
+
+addButton.addEventListener("click", () => {
+  addCardPopup.open();
+});
 
 const formEditProfileValidator = new FormValidator(config, profileForm);
 formEditProfileValidator.enableValidation();
 
-editButton.addEventListener('click', () => {
+profileEditButton.addEventListener('click', () => {
+  const userData = userInfo.getUserInfo();
+
   formEditProfileValidator.resetValidation();
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  openPopup(popupEdit);
+  profileNameInput.value = userData.name;
+  profileJobInput.value = userData.job;
+  profilePopup.open();
 });
 
-const formAddNewCardValidator = new FormValidator (config, addForm);
-formAddNewCardValidator.enableValidation();
-
-addButton.addEventListener("click", () => {
-  addForm.reset();
-  formAddNewCardValidator.resetValidation();
-  openPopup(popupAdd);
+const userInfo = new UserInfo({
+  userNameElement: '.profile__name',
+  userInfoElement: '.profile__who',
 });
 
-profileForm.addEventListener("submit", handleProfileFormSubmit);
-addForm.addEventListener("submit", handleCardFormSubmit);
+const profilePopup = new PopupWithForm({
+  formSubmitHandler: (item) => {
+    userInfo.setUserInfo(item.name, item.job);
+    profilePopup.close();
+    profilePopup.resetForm();
+    formEditProfileValidator.toggleButtonState()
+  },
+  popupCloseHandler: () => {
+    formEditProfileValidator.hideAllErrors();
+    profilePopup.resetForm();
+    formEditProfileValidator.toggleButtonState();
+  },
+}, config.popupEditProfileSelector);
+profilePopup.setEventListeners();
+
+const popupWithImage = new PopupWithImage(config.popupWithImageSelector);
+popupWithImage.setEventListeners();

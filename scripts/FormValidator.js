@@ -1,13 +1,23 @@
 export default class FormValidator {
   constructor(config, formElement) {
-      this._config = config;
-      this._formElement = formElement;
-      this._errorClass = config.errorClass;
-      this._inputErrorClass = config.inputErrorClass;
-      this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
-      this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
-      this._spanList = Array.from(this._formElement.querySelectorAll(config.spanError));
-    }
+    this._config = config;
+    this._formElement = formElement;
+    this._errorClass = config.errorClass;
+    this._inputErrorClass = config.inputErrorClass;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
+    this._spanList = Array.from(this._formElement.querySelectorAll(config.spanError));
+  }
+
+  toggleButtonState() {
+    this._buttonElement.disabled = this._hasInvalidInput();
+  }
+
+  hideAllErrors() {
+    this._inputList.forEach(input => {
+      this._hideInputError(input);
+    })
+  }
 
   _showInputError(formInput, errorMessage) {
     const errorElement = this._formElement.querySelector(`.${formInput.id}-error`);
@@ -38,17 +48,14 @@ export default class FormValidator {
     });
   }
 
-  _toggleButtonState() {
-    this._buttonElement.disabled = this._hasInvalidInput();
-  }
 
   _setEventListeners() {
-    this._toggleButtonState();
+    this.toggleButtonState();
 
     this._inputList.forEach((formInput) => {
       formInput.addEventListener('input', () => {
         this._checkInputValidity(formInput);
-        this._toggleButtonState();
+        this.toggleButtonState();
       });
     });
   };
@@ -58,7 +65,7 @@ export default class FormValidator {
   }
 
   resetValidation() {
-    this._toggleButtonState();
+    this.toggleButtonState();
 
     this._inputList.forEach(inputElement => {
       this._hideInputError(inputElement)
