@@ -1,0 +1,28 @@
+.popup__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: url(../../../images/close-icn.svg);
+  transform: translate(calc(100% + 8px), calc(-100% - 8px));
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  background-position: center;
+  cursor: pointer;
+  background-size: contain;
+  padding: 0;
+}
+
+.popup__close:hover {
+  opacity: 60%;
+}
+
+@media screen and (max-width: 425px) {
+  .popup__close {
+     width: 20px;
+     height: 20px;
+     transform: translateY(calc(-100% + -16px));
+  }
+}

@@ -5,6 +5,8 @@ import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 import Section from "./Section.js";
 
+import '../pages/index.css'; // добавьте импорт главного файла стилей 
+
 const config = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
