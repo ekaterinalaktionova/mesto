@@ -36,7 +36,7 @@ export default class FormValidator {
   _checkInputValidity(formInput) {
 
     if (!formInput.validity.valid) {
-      this._showInputError(formInput, 'Некорректное значение');
+      this._showInputError(formInput, formInput.validationMessage);
     } else {
       this._hideInputError(formInput);
     }

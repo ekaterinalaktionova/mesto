@@ -1,11 +1,11 @@
-import PopupWithImage from "./PopupWithImage.js";
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
-import PopupWithForm from "./PopupWithForm.js";
-import UserInfo from "./UserInfo.js";
-import Section from "./Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import Section from "../components/Section.js";
 
-import '../pages/index.css'; // добавьте импорт главного файла стилей 
+import './index.css'; // добавьте импорт главного файла стилей 
 
 const config = {
   formSelector: '.popup__form',
@@ -99,15 +99,10 @@ const addCardPopup = new PopupWithForm({
     };
 
     allCards.addItem(createCard(newCardInput));
-    addCardPopup.close();
-    addCardPopup.resetForm();
     formAddNewCardValidator.toggleButtonState();
   },
   popupCloseHandler: () => {
-    // не лучше ли оставлять частично-заполненную форму?
-    // удобно, закрыла форму, потом открыла и продолжила с того же месте
     formAddNewCardValidator.hideAllErrors();
-    addCardPopup.resetForm();
     formAddNewCardValidator.toggleButtonState();
   },
 }, config.addNewCardSelector);
@@ -137,13 +132,10 @@ const userInfo = new UserInfo({
 const profilePopup = new PopupWithForm({
   formSubmitHandler: (item) => {
     userInfo.setUserInfo(item.name, item.job);
-    profilePopup.close();
-    profilePopup.resetForm();
     formEditProfileValidator.toggleButtonState()
   },
   popupCloseHandler: () => {
     formEditProfileValidator.hideAllErrors();
-    profilePopup.resetForm();
     formEditProfileValidator.toggleButtonState();
   },
 }, config.popupEditProfileSelector);

@@ -13,6 +13,7 @@ export default class PopupWithForm extends Popup {
   // override
   close() {
     super.close();
+    this._formElement.reset();
     this._formCloseHandler();
   }
 
@@ -21,11 +22,8 @@ export default class PopupWithForm extends Popup {
     this._formElement.addEventListener('submit', (e) => {
       e.preventDefault();
       this._formSubmitHandler(this._getInputValues());
+      this.close();
     });
-  }
-
-  resetForm() {
-    this._formElement.reset();
   }
 
   _getInputValues() {
