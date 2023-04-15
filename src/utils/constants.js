@@ -1,6 +1,5 @@
 const profileEditButton = document.querySelector('.profile__edit'); // profile edit
 const profileChangeAvatarButton = document.querySelector('.profile__avatar-btn'); // profile edit
-
 const profileForm = document.querySelector('.popup__form_edit-profile');
 const profileNameInput = document.querySelector('.popup__input_type_name');
 const profileJobInput = document.querySelector('.popup__input_type_who');
