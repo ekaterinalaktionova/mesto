@@ -4,15 +4,15 @@ import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
-import {profileEditButton, profileChangeAvatarButton, profileForm, profileNameInput,
-  profileJobInput, addButton, config} from '../utils/constants.js';
+import {
+  profileEditButton, profileChangeAvatarButton, profileForm, profileNameInput,
+  profileJobInput, addButton, config
+} from '../utils/constants.js';
 import './index.css';
 
-import {API} from "../components/Api.js";
+import {api} from "../components/Api.js";
 
 let cardSelectedToDelete = null;
-
-//test
 
 const init = async () => {
 
@@ -24,14 +24,17 @@ const init = async () => {
     userAvatarElement: '.profile__avatar',
   });
 
-  const userData = await API.getMe();
+  const [userData, initialCards] = await Promise.all([
+    api.getMe(),
+    api.getCards()
+      .catch(err => console.error(`Failed to fetch cards, status=${err.status}`))
+  ]);
+
   userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
 
   const profilePopup = new PopupWithForm({
     formSubmitHandler: (item) => {
-      userInfo.setUserInfo('Обновление...', '');
-
-      API.updateProfile({
+      return api.updateProfile({
         name: item.name,
         about: item.job,
       }).then(res => {
@@ -39,7 +42,6 @@ const init = async () => {
       }).catch(err => {
         console.error('Failed to update profile, err=', err);
         userInfo.setUserInfo('Произошла ошибка', 'Обновите страницу');
-        formEditProfileValidator.toggleButtonState()
       });
     },
     popupCloseHandler: () => {
@@ -62,11 +64,10 @@ const init = async () => {
   const editProfileAvatarPopup = new PopupWithForm({
     formSubmitHandler: (item) => {
       // "saving..."
-      API.updateProfileAvatar(item.avatarUrl).then(res => {
-        // "saded!""
+      return api.updateProfileAvatar(item.avatarUrl).then(res => {
+        // "saved!""
         userInfo.setUserInfo(res.name, res.about, res.avatar);
       }).catch(err => console.error('Failed to update avatar, err=', err));
-      console.log()
     },
     popupCloseHandler: () => {
       formEditAvatarValidator.hideAllErrors();
@@ -84,8 +85,6 @@ const init = async () => {
 
   // ### CARDS ###
 
-  const initialCards = await API.getCards()
-    .catch(err => console.error(`Failed to fetch cards, status=${err.status}`));
 
   const allCards = new Section({
     items: initialCards.reverse(),
@@ -98,7 +97,7 @@ const init = async () => {
 
   const addCardPopup = new PopupWithForm({
     formSubmitHandler: (item) => {
-      API.addCard(item.name, item.link).then(addedCard => {
+      return api.addCard(item.name, item.link).then(addedCard => {
         allCards.addItem(createCard({userId: userData._id, ...addedCard}));
         formAddNewCardValidator.toggleButtonState();
       }).catch(err => console.error('Failed to add card, err=', err));
@@ -117,36 +116,49 @@ const init = async () => {
 
 init().catch(err => console.error('Init error: ', err));
 
-function closePopupByEsc(evt) {
-  if (evt.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_opened');
-    closePopup(activePopup);
-  }
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEsc);
-}
-
 const confirmDeleteCardPopup = new PopupWithForm({
   formSubmitHandler: () => {
-    if(!!cardSelectedToDelete){
-      cardSelectedToDelete.delete();
+    if (!!cardSelectedToDelete) {
+      return api.deleteCard(cardSelectedToDelete._id)
+        .then(() => {
+          cardSelectedToDelete.delete();
+        })
+        .catch(err => console.error('Failed to delete card, err=', err));
     }
   },
   popupCloseHandler: () => {
-  // idk
+    // idk
   },
 }, config.confirmDeleteCardPopupSelector);
 confirmDeleteCardPopup.setEventListeners();
 
 function createCard(card) {
-  const item = new Card(card, '.template-card', () => {
-    popupWithImage.open(card.name, card.link)
-  }, (cardToDelete) => {
-    cardSelectedToDelete = cardToDelete;
-    confirmDeleteCardPopup.open();
+  const item = new Card(card, '.template-card', {
+    handleCardClick: () => {
+      popupWithImage.open(card.name, card.link)
+    },
+    handleCardDeleteClick: () => {
+      cardSelectedToDelete = cardToDelete;
+      confirmDeleteCardPopup.open();
+    },
+    handleLikeClick: () => {
+      // like click
+      const hasLike = item._isLikedByUser(item._currentUserId);
+
+      if (!hasLike) {
+        api.likeCard(item._id).then(res => {
+          item._handleLikeCard();
+          item._likes = res.likes
+          item._cardLikesCount.textContent = '' + item._likes.length;
+        }).catch(err => console.error('Failed to update the card like status, err=', err));
+      } else {
+        api.unlikeCard(item._id).then(res => {
+          item._cardLikeButton.classList.toggle('card__like_active', false);
+          item._likes = res.likes;
+          item._cardLikesCount.textContent = '' + item._likes.length;
+        }).catch(err => console.error('Failed to update the card like status, err=', err));
+      }
+    }
   });
   return item.generateCard();
 }

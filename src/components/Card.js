@@ -1,7 +1,5 @@
-import {API} from "./Api.js";
-
 export default class Card {
-  constructor(data, templateSelector, handleCardClick, handleCardDeleteClick) {
+  constructor(data, templateSelector, {handleCardClick, handleCardDeleteClick, handleLikeClick}) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
@@ -9,28 +7,15 @@ export default class Card {
     this._likes = data.likes;
     this._handleCardClick = handleCardClick;
     this._handleCardDeleteClick = handleCardDeleteClick;
+    this._handleLikeClick = handleLikeClick;
+
     this._currentUserId = data.userId;
 
     this._template = document.querySelector(templateSelector).content.querySelector('.card')
   }
 
   _handleLikeCard() {
-
-    const hasLike = this._isLikedByUser(this._currentUserId);
-
-    if (!hasLike) {
-      API.likeCard(this._id).then(res => {
-        this._cardLikeButton.classList.toggle('card__like_active', true);
-        this._likes = res.likes;
-        this._cardLikesCount.textContent = '' + this._likes.length;
-      }).catch(err => console.error('Failed to update the card like status, err=', err));
-    } else {
-      API.unlikeCard(this._id).then(res => {
-        this._cardLikeButton.classList.toggle('card__like_active', false);
-        this._likes = res.likes;
-        this._cardLikesCount.textContent = '' + this._likes.length;
-      }).catch(err => console.error('Failed to update the card like status, err=', err));
-    }
+    this._cardLikeButton.classList.toggle('card__like_active');
   }
 
   _isLikedByUser(userId) {
@@ -43,7 +28,7 @@ export default class Card {
 
   _setEventListeners() {
     this._cardLikeButton.addEventListener('click', () => {
-      this._handleLikeCard();
+      this._handleLikeClick();
     });
 
     if (!!this._cardDeleteButton) {
@@ -57,9 +42,7 @@ export default class Card {
   }
 
   delete() {
-    API.deleteCard(this._id).then((res) => {
-      this._element.remove();
-    }).catch(err => console.error('Failed to delete card, err=', err));
+    this._element.remove();
   }
 
   generateCard() {

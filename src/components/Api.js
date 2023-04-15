@@ -72,7 +72,7 @@ const apiConfig = {
   cohortId: 'cohort-63',
 }
 
-export const API = new Api({
+export const api = new Api({
   baseUrl: `https://mesto.nomoreparties.co/v1/${apiConfig.cohortId}`,
   headers: {
     authorization: apiConfig.authorizationToken,
