@@ -14,31 +14,15 @@ export default class Card {
     this._template = document.querySelector(templateSelector).content.querySelector('.card')
   }
 
-  _handleLikeCard() {
-    this._cardLikeButton.classList.toggle('card__like_active');
-  }
 
-  _isLikedByUser(userId) {
+  isLikedByUser(userId) {
     return (this._likes && !!this._likes.find(like => like._id === userId));
   }
 
-  _isOwner(userId) {
-    return this._owner._id === userId;
-  }
-
-  _setEventListeners() {
-    this._cardLikeButton.addEventListener('click', () => {
-      this._handleLikeClick();
-    });
-
-    if (!!this._cardDeleteButton) {
-      this._cardDeleteButton.addEventListener('click', () => {
-        this._handleCardDeleteClick(this);
-      });
-    }
-    this._cardImage.addEventListener('click', () => {
-      this._handleCardClick(this._name, this._link)
-    });
+  updateLikes(newLikes) {
+    this._likes = newLikes;
+    this._cardLikesCount.textContent = '' + this._likes.length;
+    this._changeCardLikeStatus(this.isLikedByUser(this._currentUserId));
   }
 
   delete() {
@@ -66,10 +50,33 @@ export default class Card {
     this._cardImage.alt = this._name;
 
     // apply status
-    this._cardLikeButton.classList.toggle('card__like_active', this._isLikedByUser(this._currentUserId));
+    this._cardLikeButton.classList.toggle('card__like_active', this.isLikedByUser(this._currentUserId));
     this._cardLikesCount.textContent = '' + this._likes.length;
 
     this._setEventListeners();
     return this._element;
+  }
+
+  _changeCardLikeStatus(newStatus) {
+    this._cardLikeButton.classList.toggle('card__like_active', newStatus);
+  }
+
+  _isOwner(userId) {
+    return this._owner._id === userId;
+  }
+
+  _setEventListeners() {
+    this._cardLikeButton.addEventListener('click', () => {
+      this._handleLikeClick();
+    });
+
+    if (!!this._cardDeleteButton) {
+      this._cardDeleteButton.addEventListener('click', () => {
+        this._handleCardDeleteClick(this);
+      });
+    }
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick(this._name, this._link)
+    });
   }
 }

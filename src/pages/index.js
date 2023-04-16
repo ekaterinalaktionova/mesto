@@ -27,8 +27,7 @@ const init = async () => {
   const [userData, initialCards] = await Promise.all([
     api.getMe(),
     api.getCards()
-      .catch(err => console.error(`Failed to fetch cards, status=${err.status}`))
-  ]);
+  ]).catch(err => console.error(`Failed get response from the server, status=${err.status}`))
 
   userInfo.setUserInfo(userData.name, userData.about, userData.avatar);
 
@@ -85,7 +84,6 @@ const init = async () => {
 
   // ### CARDS ###
 
-
   const allCards = new Section({
     items: initialCards.reverse(),
     renderer: (item) => {
@@ -137,25 +135,21 @@ function createCard(card) {
     handleCardClick: () => {
       popupWithImage.open(card.name, card.link)
     },
-    handleCardDeleteClick: () => {
+    handleCardDeleteClick: (cardToDelete) => {
       cardSelectedToDelete = cardToDelete;
       confirmDeleteCardPopup.open();
     },
     handleLikeClick: () => {
       // like click
-      const hasLike = item._isLikedByUser(item._currentUserId);
+      const hasLike = item.isLikedByUser(item._currentUserId);
 
       if (!hasLike) {
         api.likeCard(item._id).then(res => {
-          item._handleLikeCard();
-          item._likes = res.likes
-          item._cardLikesCount.textContent = '' + item._likes.length;
+          item.updateLikes(res.likes);
         }).catch(err => console.error('Failed to update the card like status, err=', err));
       } else {
         api.unlikeCard(item._id).then(res => {
-          item._cardLikeButton.classList.toggle('card__like_active', false);
-          item._likes = res.likes;
-          item._cardLikesCount.textContent = '' + item._likes.length;
+          item.updateLikes(res.likes);
         }).catch(err => console.error('Failed to update the card like status, err=', err));
       }
     }
